@@ -1,0 +1,33 @@
+const fs = require('fs')
+
+
+console.log("----- START -----")
+// Read file Async
+fs.readFile("input.txt", "utf-8", (err, data) => { // returns data as utf-8 (human readable)
+// fs.readFile("input.txt", (err, data) => { // Returns data as buffer
+    if (err) {
+        console.log(err)
+        return
+    }
+
+    // console.log(data)
+    console.log(`Async: ${data.toString()}`)
+})
+
+
+const dataSync = fs.readFileSync("input.txt")
+console.log(`Sync: ${dataSync}`)
+
+
+// Async with promise
+const dataProm = fs.promises.readFile("input.txt").then(data => {
+    console.log(`Promise: ${data.toString()}`)
+    }
+).catch(error => {
+    console.log(error)
+})
+
+
+
+
+console.log("----- END -----")

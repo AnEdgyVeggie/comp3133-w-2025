@@ -1,0 +1,32 @@
+const fs = require('fs')
+
+num = 1;
+dataToWrite = Buffer.from("hi")
+
+console.log("----- START -----")
+// Read file Async
+fs.writeFile("output.txt", dataToWrite, (err) => { // returns data as utf-8 (human readable)
+    if (err) {
+        console.log(err)
+        return
+    }
+    console.log(`Async: Data Written`)
+    dataToWrite++
+})
+
+
+fs.writeFileSync("input.txt", dataToWrite )
+console.log(`Sync: Data Written`)
+
+// Async with promise
+const dataProm = fs.promises.writeFile("input.txt", dataToWrite).then(() => {
+    console.log(`Promise: Data written}`)
+    }
+).catch(error => {
+    console.log(error)
+})
+
+
+
+
+console.log("----- END -----")
