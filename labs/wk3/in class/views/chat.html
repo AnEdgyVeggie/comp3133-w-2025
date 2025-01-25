@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Client</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Week 3: NodeJS Socket Examples</h1>
+    <script>
+        // const io = io().of("/")  these 2  lines are equivilant. "/" is the default namespace
+        const ioClient = io()
+        ioClient.on('connect', () =>{
+            console.log("Client connected to server")
+            ioClient.send("sending message")
+
+            ioClient.on('chat_message', (data) => {
+                const container = document.getElementById('container')
+                const msg = `<p><b>${data.clientId}</b>: ${data.message}</p>`
+            })
+
+
+            ioClient.on('disconnect', () => {
+                console.log("DISCONNECTED")
+            })
+            
+        })
+        
+        const sendMessage = () => {
+            console.log("here")
+            const message = document.getElementById("message").value
+
+            const data = {
+                clientId: "ioClient.id",
+                message: message
+            }
+
+
+            ioClient.emit("chat_message", data)
+        }
+
+
+        </script>
+ 
+ 
+    <input  placeholder="Please enter a message" id="message" name="message" type=text >
+    <button onclick="sendMessage()" >Send Message</button>
+    <div id="container">
+        <h2>Chat History</h2>
+    </div>
+
+
+
+</body>
+</html>
